@@ -1,0 +1,61 @@
+---
+/**
+ * Drop-in <head> SEO partial for sites that don't already emit their own
+ * meta/OG/Twitter tags. Render inside <head>. Sites with an existing SEO-aware
+ * layout (like gibble's Layout.astro) can extend that instead.
+ */
+interface Props {
+  title: string;
+  description: string;
+  canonicalURL: string | URL;
+  type?: "website" | "article";
+  image?: string;
+  siteName?: string;
+  locale?: string;
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  author?: string;
+  tags?: string[];
+}
+const {
+  title,
+  description,
+  canonicalURL,
+  type = "article",
+  image,
+  siteName,
+  locale = "en",
+  publishedTime,
+  modifiedTime,
+  author,
+  tags = [],
+} = Astro.props;
+
+const canonical = canonicalURL.toString();
+const isArticle = type === "article";
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content={locale} />
+{siteName && <meta property="og:site_name" content={siteName} />}
+{image && <meta property="og:image" content={image} />}
+
+{isArticle && publishedTime && (
+  <meta property="article:published_time" content={publishedTime.toISOString()} />
+)}
+{isArticle && modifiedTime && (
+  <meta property="article:modified_time" content={modifiedTime.toISOString()} />
+)}
+{isArticle && author && <meta property="article:author" content={author} />}
+{isArticle && tags.map((tag) => <meta property="article:tag" content={tag} />)}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{image && <meta name="twitter:image" content={image} />}

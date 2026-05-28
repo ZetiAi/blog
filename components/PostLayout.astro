@@ -1,0 +1,61 @@
+---
+/**
+ * Slot-based article body. Structure only — colors inherit from the host site
+ * via `currentColor`/opacity and the Tailwind Typography `prose` classes, so it
+ * adopts each site's theme. Pass the rendered <Content /> into the default slot.
+ */
+interface Props {
+  title: string;
+  description?: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  author?: string;
+  tags?: string[];
+  readingTime?: number;
+  heroImage?: string;
+  locale?: string;
+}
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  author,
+  tags = [],
+  readingTime,
+  heroImage,
+  locale = "en",
+} = Astro.props;
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString(locale, { year: "numeric", month: "long", day: "numeric" });
+---
+<article class="mx-auto w-full max-w-[720px] px-4 py-12 sm:py-16">
+  <header class="mb-8">
+    {tags.length > 0 && (
+      <div class="mb-3 flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span class="text-xs font-semibold uppercase tracking-wide opacity-70">{tag}</span>
+        ))}
+      </div>
+    )}
+    <h1 class="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">{title}</h1>
+    {description && <p class="mt-3 text-lg opacity-80">{description}</p>}
+    <div class="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm opacity-60">
+      {author && <span>{author}</span>}
+      {author && <span aria-hidden="true">·</span>}
+      <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
+      {readingTime && <span aria-hidden="true">·</span>}
+      {readingTime && <span>{readingTime} min read</span>}
+    </div>
+    {updatedDate && <p class="mt-1 text-xs opacity-50">Updated {fmt(updatedDate)}</p>}
+  </header>
+
+  {heroImage && (
+    <img src={heroImage} alt={title} class="mb-8 w-full rounded-2xl object-cover" loading="eager" />
+  )}
+
+  <div class="prose prose-lg max-w-none">
+    <slot />
+  </div>
+</article>
