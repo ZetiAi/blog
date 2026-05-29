@@ -2,6 +2,7 @@
   "name": "blog",
   "version": "0.1.0",
   "private": true,
+  "license": "Apache-2.0",
   "type": "module",
   "description": "SEO-first, theme-agnostic blog kit for Astro sites: content schema, structured data, RSS helpers, and slot-based layouts. Each site owns its posts and styling.",
   "exports": {
@@ -13,12 +14,15 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "lint": "biome check ."
+    "lint": "biome check .",
+    "test": "vitest --run"
   },
   "peerDependencies": {
     "astro": "^6.0.0"
   },
   "devDependencies": {
-    "typescript": "~5.9.2"
+    "astro": "^6.4.2",
+    "typescript": "~5.9.2",
+    "vitest": "^4.1.7"
   }
 }

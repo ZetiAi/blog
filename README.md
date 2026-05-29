@@ -4,9 +4,8 @@ SEO-first, theme-agnostic blog kit for Astro sites. Each site owns its posts
 (`src/content/blog/*.md`) and its styling; this package provides the shared
 schema, structured data, RSS helpers, and slot-based layouts.
 
-> Lives in the gibble monorepo for now but is intentionally repo-agnostic — the
-> same package is meant to power catchat and AICSUITE. Nothing here is
-> gibble-specific.
+> A standalone, repo-agnostic package — the same kit is meant to power several
+> Astro sites. Nothing here is tied to any one site.
 
 ## What it provides
 
@@ -74,3 +73,7 @@ export async function GET(context) {
 
 Theming: layouts use `prose` + `currentColor`/opacity, so they inherit the host
 site's typography and palette. Add `@tailwindcss/typography` to the consuming app.
+
+## License
+
+[Apache-2.0](./LICENSE)
